@@ -1,33 +1,51 @@
 #include "main.h"
 
 /**
- * _sqrt_recursion - return the natural square root of a number
+ * is_prime_number - determine if a number is a prime number
  * @n: int number
- * Return: If no natural square root, return -1. Else return natural
- * square root
+ * Return: 1 if prime, 0 otherwise
  */
 
-int _sqrt_recursion(int n)
+int is_prime_number(int n)
 {
-	return (halp(n, 1));
+	if (n < 2)
+		return (0);
+	if (n < 4)
+		return (1);
+	return (hai(n, 2));
 }
 
 /**
- * halp - helper function to solve _sqrt_recursion
- * @c: number to determine if square root
- * @i: incrementer to compare against `c`
- * Return: square root if natural square root, or -1 if none found
+ * _sqrt - return square root of number
+ * @x: number
+ * @i: number incrementer acting as divisor
+ * Return: square root of `x`
  */
 
-int halp(int c, int i)
+int _sqrt(int x, int i)
 {
 	int square;
 
 	square = i * i;
-	if (square == c)
+	if (square >= x)
 		return (i);
-	else if (square < c)
-		return (halp(c, i + 1));
 	else
-		return (-1);
+		return (_sqrt(x, i + 1));
+}
+
+/**
+ * hai - helper function, recursive steps taken
+ * @n: number given to original function is_prime_number
+ * @d: incrementer divisor
+ * Return: 0 if not prime, 1 if prime
+ */
+
+int hai(int n, int d)
+{
+	if (n % d == 0)
+		return (0);
+	else if (_sqrt(n, 1) < d)
+		return (1);
+	else
+		return (hai(n, d + 1));
 }
