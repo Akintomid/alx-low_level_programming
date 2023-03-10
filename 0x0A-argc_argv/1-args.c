@@ -8,15 +8,13 @@
  * Return: Always 0 (success)
  */
 
-int main(int argc, char *argv[])
+int main(int argc, __attribute__((unused)) char *argv[])
 {
 	int t;
 
-	printf("%d\n", argc);
-
 	for (t = 0; t < argc; t++)
 	{
-		printf("%s", argv[t]);
 	}
+	printf("%d\n", t - 1);
 	return (0);
 }
