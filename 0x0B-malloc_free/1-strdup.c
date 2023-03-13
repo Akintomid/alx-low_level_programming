@@ -3,32 +3,29 @@
 #include <stdlib.h>
 
 /**
- * *_strdup - Function that returns a pointer to a newly allocated,
- * space in memory.
- * @str: string
- * Return: Always 0 upon success
+ * _strdup - Duplicate a string using malloc
+ * @str: string to duplicate
+ * Return: Pointer to a the new duped string
  */
+
 char *_strdup(char *str)
 {
-	int a, end;
-	char *array;
+	char *a;
+	int i, c;
 
 	if (str == NULL)
 		return (NULL);
 
-	for (end = 0; end <= *str; end++)
-	{
-	}
-	end++;
+	for (i = 0; str[i] != '\0'; i++)
+		;
 
-	array = malloc(sizeof(char) * end);
-
-	for (a = 0; a < end; a++)
-		array[a] = str[a];
-
-	if (array == NULL)
-	{
+	a = malloc(i * sizeof(*a) + 1);
+	if (a == NULL)
 		return (NULL);
-	}
-	return (array);
+
+	for (c = 0; c < i; c++)
+		a[c] = str[c];
+	a[c] = '\0';
+
+	return (a);
 }
