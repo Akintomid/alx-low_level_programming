@@ -5,6 +5,8 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <string.h>
+#include "main.h"
+
 
 void print_error(char *error_message)
 {
@@ -14,11 +16,14 @@ void print_error(char *error_message)
 
 int main(int argc, char **argv)
 {
-	int Rq = open(argv[1], O_RDONLY);
 	Elf64_Ehdr header;
+	int a;
+	int Rq = open(argv[1], O_RDONLY);
+
 	if (argc != 2)
 	{
 		print_error("Invalid number of arguments passed");
+	}
 	if (Rq == -1)
 	{
 		perror("Error");
@@ -38,7 +43,7 @@ int main(int argc, char **argv)
 		print_error("Not an ELF file");
 	}
 	printf("Magic:   ");
-	for (int a = 0; a < EI_NIDENT; a++)
+	for (a = 0; a < EI_NIDENT; a++)
 	{
 		printf("%02x ", header.e_ident[a]);
 	}
@@ -51,7 +56,7 @@ int main(int argc, char **argv)
 			header.e_ident[EI_DATA] == ELFDATA2MSB ? "2's complement, big endian" :
 			header.e_ident[EI_DATA] == ELFDATANONE ? "none" : "unknown");
 	printf("Version:                        %d\n",
-			header.e_ident[VERSION]);
+			header.e_ident[NT_VERSION]);
 	printf("OS/ABI:                         %s\n",
 			header.e_ident[EI_OSABI] == ELFOSABI_SYSV ? "UNIX system V ABI" :
 			header.e_ident[EI_OSABI] == ELFOSABI_HPUX ? "HP_UX ABI" :
@@ -69,9 +74,7 @@ int main(int argc, char **argv)
 			header.e_type == ET_REL ? "REL (Relocatable Object File)" :
 			header.e_type == ET_EXEC ? "EXEC (Executable file)" :
 			header.e_type == ET_DYN ? "DYN (Shared objext file)" :
-			header.e_type == ET_CORE ? "CORE (Core file)" :
-			header.e_type >= ET_LOPROC && header.e_type <= ET_HIPROC ? "Processor specific" :
-			header.e_type >= ET_LOOS && header.e_type <= HIOS ? "OS-specific" : "unknown");
+			header.e_type == ET_CORE ? "CORE (Core file)" : "Unknown");
 	printf("Entry point address: %lx\n",
 		(unsigned long) header.e_entry);
 	if (Rq == -1)
